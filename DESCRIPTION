@@ -1,0 +1,20 @@
+Package: refdbtools
+Type: Package
+Title: Tools for making eDNA reference databases
+Version: 0.1.0
+Author: Ben Tupper
+Maintainer: Ben Tupper <btupper@bigelow.org>
+URL: https://github.com/bigelowlab/refdbtools
+Description: R language package to assist in making eDNA reference databases.
+License: MIT + file LICENSE
+Encoding: UTF-8
+RoxygenNote: 7.2.3
+Roxygen: list(markdown = TRUE)
+Imports:
+  rlang,
+  charlier,
+  yaml,
+  readr, 
+  rfishbase, 
+  dplyr,
+  rentrez
