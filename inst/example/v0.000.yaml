@@ -1,0 +1,80 @@
+version: v0.000
+rootpath: /mnt/s1/projects/ecocast/projects/yesmaelli/edna-fish-refdb/yasmina
+region: nwa
+preselect_filename: ~
+preselect_column: ~
+groups:
+  fish:
+  - Actinopterygii
+  - Elasmobranchii
+default_label: nonfish
+lazy_database: no
+fishbase:
+  country:
+    country:
+    - USA
+    - Canada
+    - Greenland
+  distribution:
+    FAO:
+    - Atlantic, Northwest
+    - Atlantic, Western Central
+    - America, North - Inland waters
+    - Arctic Ocean
+  ecosystem:
+    EcosystemName:
+    - Arctic
+    - Arctic Complex
+    - Atlantic Complex
+    - Atlantic Ocean
+    - Canadian Eastern Arctic - West Greenland
+    - Canadian High Arctic - North Greenland
+    - Chesapeake Bay
+    - Gulf of Maine
+    - Hudson Bay Complex
+    - Hudson Complex
+    - Labrador - Newfoundland
+    - Northeast U.S. Continental Shelf
+    - St. Lawrence Complex
+    - St. Lawrence
+    - West Greenland Shelf
+#sealifebase:
+#  country:
+#    country:
+#    - USA
+#    - Canada
+#    - Greenland
+#  distribution:
+#    FAO:
+#    - Atlantic, Northwest
+#    - Atlantic, Western Central
+#    - America, North - Inland waters
+#    - Arctic Ocean
+#  ecosystem:
+#    EcosystemName:
+#    - Arctic
+#    - Arctic Complex
+#    - Atlantic Complex
+#    - Atlantic Ocean
+#    - Canadian Eastern Arctic - West Greenland
+#    - Canadian High Arctic - North Greenland
+#    - Chesapeake Bay
+#    - Gulf of Maine
+#    - Hudson Bay Complex
+#    - Hudson Complex
+#    - Labrador - Newfoundland
+#    - Northeast U.S. Continental Shelf
+#    - St. Lawrence Complex
+#    - St. Lawrence
+#    - West Greenland Shelf
+entrez:
+  voucher:
+    search_modifier: '[ORGN] AND 12S[ALL] AND voucher[ALL]'
+    db: nucleotide
+    dump: yes
+    dump_separate: no
+  novoucher:
+    search_modifier: '[ORGN] AND 12S[ALL]'
+    db: nucleotide
+    dump: yes
+    dump_separate: no

@@ -1,0 +1,43 @@
+name,example,comment
+version,vn.xyz,Anything that fits the major.minor pattern.  Reserve v0.xxx for development.
+rootpath,/this/is/the/path/to/the/data,Where results files are written
+region,foo,A simple region nickname (no spaces please)
+preselect_filename,example/SpeciesList_UpdatedNames.csv,for the optional preselection of species.  Must be CSV
+preselect_column,ScientificName_accepted,the name of the column with optional preselected species
+groups,"  fish:
+  - Actinopterygii
+  - Elasmobranchii","For identifying the target species. In this example, the groups are fish and all others"
+default_label,nonfish,a name to attach to unselected species
+lazy_database,yes,"If you have already downloaded fishbase/selalifebase databases and they reside in `rootpath/data/fishbase` and `rootpath/data/selifebase` then use those.  Otherwise, if “no”, then downlaod a fresh set of files."
+fishbase,"country:
+    country:
+    - USA
+    - Canada
+    - Greenland
+  distribution:
+    FAO:
+    - Atlantic, Northwest
+    - Atlantic, Western Central
+    - America, North - Inland waters
+    - Arctic Ocean","These are group by function `(fishbase::country(server = “fishbase”)`, `(fishbase::distribution(server = “fishbase”)`, etc.  In this example, the fields of the results are `country` and `FAO`.  These are searched for the listed patterns.  The same works for any sealifebase searches.  Then these are pooled and filtered for unique matches."
+sealifebase,"  country:
+    country:
+    - USA
+    - Canada
+    - Greenland
+  distribution:
+    FAO:
+    - Atlantic, Northwest
+    - Atlantic, Western Central
+    - America, North - Inland waters
+    - Arctic Ocean",See `fishbase`
+entrez,"  voucher:
+    search_modifier: '[ORGN] AND 12S[ALL] AND voucher[ALL]'
+    db: nucleotide
+    dump: yes
+    dump_separate: no
+  novoucher:
+    search_modifier: '[ORGN] AND 12S[ALL]'
+    db: nucleotide
+    dump: yes
+    dump_separate: no",Each subsection represents one entrez search with any modifier required.  The database can be specified.  The user can request that the FASTA results be dumped to one-for-all or one-for-each files.  

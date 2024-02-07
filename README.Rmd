@@ -1,0 +1,110 @@
+---
+title: "README"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Creating fish-centric eDNA reference database using [fishbase](https://fishbase.se/home.htm) and [sealifebase](https://www.sealifebase.ca/) to select target fish, and [entrez](https://www.ncbi.nlm.nih.gov/Web/Search/entrezfs.html) to fetch FASTA files.
+
+## Requirements
+
+### From CRAN
+
+  + [R v4.1+](https://www.r-project.org/)
+  + [readr](https://CRAN.R-project.org/package=readr)
+  + [rfishbase](https://CRAN.R-project.org/package=rfishbase)
+  + [dplyr](https://CRAN.R-project.org/package=dplyr)
+  + [rentrez](https://CRAN.R-project.org/package=rentrez)
+  + [rlang](https://CRAN.R-project.org/package=rlang)
+  + [yaml](https://CRAN.R-project.org/package=yaml)
+  
+### From github
+
+  + [charlier](https://github.com/BigelowLab/charlier)
+  
+## Installation
+
+```
+remotes::install_github("BigelowLab/charlier")
+remotes::install_github("BigelowLab/refdbtools")
+```
+
+## Usage
+
+Here we show the basic steps for developing reference databases to be used, in this example, in the Northwest Atlantic region (aka `nwa`.)  
+
+### Read a configuration file
+
+Without going into the details (yet), load a configuration file, which is a just [text file](example/v0.000.yaml) in [YAML](https://www.cloudbees.com/blog/yaml-tutorial-everything-you-need-get-started) format.
+
+The configuration is an easy way to pass in complex operating instructions into a function.  We use one configuration for two different steps. Below we read in an example configuration provided with the package.
+
+```{r}
+suppressPackageStartupMessages({
+  library(refdbtools)
+  library(dplyr)
+})
+cfg = read_configuration(template = TRUE)
+str(cfg)
+```
+
+### Species selection
+
+This step will query the [fishbase](https://fishbase.se/home.htm) and/or [sealifebase](https://www.sealifebase.ca/) databases for species.  These databases produce tables of data that we may want for future use, so they are written into a standard location inside a `data` directory that is created as needed.
+
+```{=gfm}
+> [!NOTE]
+> It is possible to "preselect" species to narrow your listing. The name of the 
+> file containing the preselected spcies and the name of the column within can be
+> optionially defined in the configuration.
+>
+> This snippet defines them as NULL, in which case they are ignored.
+>
+> preselect_filename: ~
+> preselect_column: ~
+```
+
+
+```{r}
+x = select_target_species(cfg) |>
+  glimpse()
+```
+
+If you look in you filebrowser in this directory you will see a new subdirectory called `data` and subfolders within. in `versions` you will find `v0/v0.000` which now contains a copy of the configuration and the selected species named by the region (in this case `nwa`.)
+
+
+### Species search for contigs
+
+We can then uses this listing of species of interest to fetch FASTA files (among other things) form [entrez](https://www.ncbi.nlm.nih.gov/Web/Search/entrezfs.html).  If you look closely at the configuration, copied below, you'll see that we do two different searches named `voucher` and `novoucher`.  Each is run independently, and the names can be anything you want (but we advise using underscore between words (*e.g.* `white_shark` instead of `white shark`)).
+
+```default
+entrez:
+  voucher:
+    search_modifier: '[ORGN] AND 12S[ALL] AND voucher[ALL]'
+    db_1: nucleotide
+    dump: yes
+    dump_separate: no
+  novoucher:
+    search_modifier: '[ORGN] AND 12S[ALL]'
+    db_2: nucleotide
+    dump: yes
+    dump_separate: no
+```
+
+The other bits are explained below in the section on configuration.  When we run the search function, [entrez](https://www.ncbi.nlm.nih.gov/Web/Search/entrezfs.html) is queried using the search modifier and database specified.  It returns one table per requested search.
+
+```{r}
+x = search_target_species(cfg)
+x
+```
+
+
+## The configuration
+
+```{r}
+tbl = readr::read_csv(system.file("example/config-explain.csv"))
+knitr::kable(tbl)
+```
