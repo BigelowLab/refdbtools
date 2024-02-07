@@ -102,11 +102,18 @@ select_target_species = function(cfg, save_config = TRUE){
     # ecosystem, distribution, etc to fetch candidates
     if (!is.null(cfg$fishbase)){
       fb = lapply(names(cfg$fishbase),
-                  function(n){
-                    f = utils::getFromNamespace(n, ns = "rfishbase")
-                    f(species_list = species_list, server = "fishbase") |>
-                      readr::write_csv(file.path(fb_path,
-                                                 sprintf("%s-%s.csv.gz", cfg$region, n))) 
+                  function(funname){
+                    cat("****", funname, "\n")
+                    f = utils::getFromNamespace(funname, ns = "rfishbase")
+                    r = try(f(species_list = species_list, server = "fishbase")) 
+                    if (inherits(r, 'try-error')){
+                      warning("error casued by ", funname)
+                      r = NULL
+                    } else {
+                      cat(class(r), "\n")
+                      r = readr::write_csv(r, file.path(fb_path,
+                                          sprintf("%s-%s.csv.gz", cfg$region, funname))) 
+                    }
                   })
     } else {
       fb = NULL
@@ -114,11 +121,11 @@ select_target_species = function(cfg, save_config = TRUE){
     
     if (!is.null(cfg$sealifebase)){
       sb = lapply(names(cfg$sealifebase),
-                  function(n){
-                    f = utils::getFromNamespace(n, ns = "rfishbase")
+                  function(funname){
+                    f = utils::getFromNamespace(funname, ns = "rfishbase")
                     f(species_list = species_list, server = "sealifebase") |>
                       readr::write_csv(file.path(sb_path, 
-                                                 sprintf("%s-%s.csv.gz", cfg$region, n)))
+                                                 sprintf("%s-%s.csv.gz", cfg$region, funname)))
                   })
     } else {
       sb = NULL

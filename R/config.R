@@ -16,14 +16,18 @@ version_path = function(version = "v0.000",
 #' @param filename chr, the full name of the file, ignored if version is not NULL
 #' @param version chr, a segemented version ID such as 'v1.234' or NULL
 #' @param root_path chr, the root path
+#' @param template logical, if TRUE read the provided example
 #' @return a configuration
 read_configuration = function(filename,
                               version = NULL,
-                              root_path = "."){
+                              root_path = ".",
+                              template = FALSE){
 
-  if (!is.null(version)){
-    filename = file.path(version_path(version, root_path),
-                    sprintf("%s.yaml", version))
+  if (template){
+    filename = system.file("example/v0.000.yaml", package = "refdbtools")
+  } else if (!is.null(version)){
+      filename = file.path(version_path(version, root_path),
+                      sprintf("%s.yaml", version))
   }
   yaml::read_yaml(filename)
 }

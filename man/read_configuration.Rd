@@ -4,7 +4,7 @@
 \alias{read_configuration}
 \title{Read a configuration}
 \usage{
-read_configuration(filename, version = NULL, root_path = ".")
+read_configuration(filename, version = NULL, root_path = ".", template = FALSE)
 }
 \arguments{
 \item{filename}{chr, the full name of the file, ignored if version is not NULL}
@@ -12,6 +12,8 @@ read_configuration(filename, version = NULL, root_path = ".")
 \item{version}{chr, a segemented version ID such as 'v1.234' or NULL}
 
 \item{root_path}{chr, the root path}
+
+\item{template}{logical, if TRUE read the provided example}
 }
 \value{
 a configuration
