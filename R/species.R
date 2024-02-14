@@ -1,6 +1,7 @@
 
 #' Read a species list
 #'
+#' @export
 #' @param filename chr, the name of the file (with extension and path)
 #' @param keep chr, one or more column names to keep.  "all" to keep them all.
 read_species_list = function(filename,
@@ -14,6 +15,7 @@ read_species_list = function(filename,
 #' Label a species table by user specified groups.  Each row is assigned to at 
 #' least one group or the default group.
 #'
+#' @export
 #' @param x table of species
 #' @param variable char name of the column to filter
 #' @param groups named list, one or more character vectors of values belong to the group(s)
@@ -42,6 +44,7 @@ label_species_list = function(x = read_species_list(),
 #' specifications. User may also provide an optional "preselection" to narrow
 #' the search range.
 #'
+#' @export
 #' @param cfg a configuration list
 #' @param save_config logical, if TRUE save the provided config in the destination
 #'   directory
@@ -107,7 +110,7 @@ select_target_species = function(cfg, save_config = TRUE){
                     f = utils::getFromNamespace(funname, ns = "rfishbase")
                     r = try(f(species_list = species_list, server = "fishbase")) 
                     if (inherits(r, 'try-error')){
-                      warning("error casued by ", funname)
+                      warning("error thrown by ", funname)
                       r = NULL
                     } else {
                       cat(class(r), "\n")

@@ -2,6 +2,7 @@
 
 #' Search of target species at NCBI
 #' 
+#' @export
 #' @param cfg configuration list
 #' @param entrez_key character, see \code{\link{get_entrez_key}}
 #' @return list of voucher and non-voucher search results 
@@ -62,7 +63,7 @@ search_target_species = function(cfg, entrez_key = get_entrez_key()){
 
 #' Dump NCBI results to FASTA file(s)
 #'
-#' 
+#' @export
 #' @param x table of NCBI search results with Species and Fasta columns
 #' @param outpath chr, output path to save the file(s)
 #' @param separate logical, if TRUE save one file per species otherwise save all to one file

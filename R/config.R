@@ -34,6 +34,7 @@ read_configuration = function(filename,
 
 #' Read a configuration
 #'
+#' @export
 #' @param cfg list, configuration list
 #' @param root_path chr, the root path or NULL in which case the root path is taken
 #'   from the config it self
@@ -50,6 +51,7 @@ write_configuration = function(cfg,
 
 #' Retrieve the user's entrez_key from ~/.entrez_key
 #'
+#' @export
 #' @param filename chr the name of the entrez key filename
 #' @return the entrez key
 get_entrez_key = function(filename = "~/.entrez_key"){
