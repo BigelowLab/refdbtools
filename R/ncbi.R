@@ -60,35 +60,3 @@ search_target_species = function(cfg, entrez_key = get_entrez_key()){
   sets
 }
 
-
-#' Dump NCBI results to FASTA file(s)
-#'
-#' @export
-#' @param x table of NCBI search results with Species and Fasta columns
-#' @param outpath chr, output path to save the file(s)
-#' @param separate logical, if TRUE save one file per species otherwise save all to one file
-#' @param filename chr, if separate is FALSE then write to this filename, otherwise
-#'   write to files named in the pattern Species.fasta.  If a single file then please use the .gz extension.
-#' @return the input table (unchanged)
-dump_fasta = function(x, outpath = ".", separate = TRUE, filename = "dump.fasta.gz"){
-  if (separate){
-    x = dplyr::rowwise(x) |>
-      dplyr::group_walk(
-        function(tbl, key){
-          fname = file.path(outpath, sprintf("%s.fasta", tbl$Species))
-          cat(tbl$Fasta, file = fname) 
-        }
-    )  
-  } else {
-    fname = file.path(outpath, filename)
-    conn = gzfile(fname, open = 'wt')
-    x = dplyr::rowwise(x) |>
-      dplyr::group_walk(
-        function(tbl, key){
-          cat(tbl$Fasta, file = conn) 
-        }
-      ) 
-    close(conn)
-  }
-  x
-}
